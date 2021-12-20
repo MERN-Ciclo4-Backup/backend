@@ -9,20 +9,27 @@ export const userTypes = gql`
     correo: String!
     estado: Enum_EstadoUsuario!
     rol: Enum_Rol!
+    foto: String
     proyectosLiderados: [Proyecto!]!
     avancesCreados: [Avance!]!
     inscripciones: [Inscripcion!]!
   }
-  input UsuarioBody {
+  input UsuarioInput {
+    _id: ID
     nombre: String
     apellido: String
     identificacion: String
     correo: String
     estado: Enum_EstadoUsuario
     rol: Enum_Rol
+    foto: String
+    password: String
+    proyectosLiderados: [String!]
+    avancesCreados: [String!]
+    inscripciones: [String!]
   }
   type Query {
-    Usuarios(filter: UsuarioBody): [Usuario!]!
+    Usuarios(filter: UsuarioInput): [Usuario!]!
     Usuario(_id: String, correo: String): Usuario
   }
   type Mutation {
@@ -33,13 +40,14 @@ export const userTypes = gql`
       correo: String!
       estado: Enum_EstadoUsuario
       rol: Enum_Rol!
+      password: String!
     ): Usuario
 
     eliminarUsuario(_id: String, correo: String): Usuario
 
     editarUsuario(
       _id: String!
-      body: UsuarioBody!
+      body: UsuarioInput!
     ): Usuario
   }
 `;

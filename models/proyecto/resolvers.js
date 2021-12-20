@@ -7,7 +7,6 @@ export const projectResolvers = {
   Proyecto: {
     lider: async ({ lider }, args, context) => {
       const user = await userModel.findOne({ _id: lider });
-      console.log(user);
       return user;
     },
     avances: async ({ _id }, args, context) => {
@@ -21,9 +20,18 @@ export const projectResolvers = {
   },
   Query: {
     Proyectos: async (parent, { filter }, context) => {
-      const filtrado = {};
+      let filtrado = {};
       if (filter) {
         filtrado = filter;
+      }
+      if (context.userData) {
+        if (context.userData.rol === "LIDER") {
+          const projects = await projectModel.find({
+            ...filtrado,
+            lider: context.userData._id,
+          });
+          return projects;
+        }
       }
       const projects = await projectModel.find(filtrado);
       return projects;
@@ -39,7 +47,7 @@ export const projectResolvers = {
       return proyecto;
     },
     eliminarProyecto: async (parent, { _id }) => {
-      console.log("ENTRE A ELIMINAR PROYECTO")
+      console.log("ENTRE A ELIMINAR PROYECTO");
       const proyecto = await projectModel.findOneAndDelete({ _id });
       const inscripciones = await inscriptionModel.deleteMany({
         proyecto: proyecto._id,
@@ -58,6 +66,49 @@ export const projectResolvers = {
         { runValidators: true, new: true }
       );
       return proyecto;
+    },
+    crearObjetivo: async (parent, { idProyecto, body }) => {
+      const proyectoConObjetivo = await projectModel.findByIdAndUpdate(
+        args.idProyecto,
+        {
+          $addToSet: {
+            objetivos: { ...body },
+          },
+        },
+        { runValidators: true, new: true }
+      );
+      return proyectoConObjetivo;
+    },
+    editarObjetivo: async (parent, { idProyecto, indexObjetivo, body }) => {
+      const proyectoEditado = await projectModel.findByIdAndUpdate(
+        idProyecto,
+        {
+          $set: {
+            [`objetivos.${indexObjetivo}.descripcion`]: body.descripcion,
+            [`objetivos.${indexObjetivo}.tipo`]: body.tipo,
+          },
+        },
+        {
+          runValidators: true,
+          new: true,
+        }
+      );
+    },
+    eliminarObjetivo: async (parent, { idProyecto, idObjetivo }) => {
+      const proyectoObjetivo = await projectModel.findByIdAndUpdate(
+        { _id: idProyecto },
+        {
+          $pull: {
+            objetivos: {
+              _id: idObjetivo,
+            },
+          },
+        },
+        {
+          runValidators: true,
+          new: true,
+        }
+      );
     },
   },
 };

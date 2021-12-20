@@ -27,7 +27,7 @@ const projectSchema = new Schema(
     },
     fase: {
       type: String,
-      enum: ["INICIADO", "EN_DESARROLLO", "TERMINADO", "NULO"],
+      enum: ["INICIADO", "DESARROLLO", "TERMINADO", "NULO"],
       default: "NULO",
     },
     lider: {

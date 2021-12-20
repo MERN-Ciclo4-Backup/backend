@@ -5,21 +5,27 @@ import { inscriptionModel } from "./inscripcion.js";
 export const inscriptionResolver = {
   Inscripcion: {
     proyecto: async ({ proyecto }, args, context) => {
+      console.log(proyecto);
       const project = await projectModel.findOne({ _id: proyecto });
       return project;
     },
-    estudiante: async ({estudiante}, args, context) => {
+    estudiante: async ({ estudiante }, args, context) => {
       const user = await userModel.findOne({ _id: estudiante });
       return user;
     },
   },
   Query: {
     Inscripciones: async (parent, { filter }, context) => {
-      const filtrado = {};
-      if (filter) {
-        filtrado = filter;
+      let filtrado = {};
+      let inscripciones = [];
+      if (context.userData) {
+        if (context.userData.rol === "LIDER") {
+          if (filter) {
+            filtrado = {...filter, estudiante: context.userData._id};
+          }
+          inscripciones = await inscriptionModel.find(filtrado);
+        }
       }
-      const inscripciones = await inscriptionModel.find(filter);
       return inscripciones;
     },
     Inscripcion: async (parent, { _id }) => {

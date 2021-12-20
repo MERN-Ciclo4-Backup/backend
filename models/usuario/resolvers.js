@@ -2,7 +2,7 @@ import { advancementModel } from "../avance/avance.js";
 import { inscriptionModel } from "../inscripcion/inscripcion.js";
 import { projectModel } from "../proyecto/proyecto.js";
 import { userModel } from "./usuario.js";
-
+import bcrypt from "bcrypt";
 export const userResolvers = {
   Usuario: {
     proyectosLiderados: async ({ _id }, args, context) => {
@@ -20,7 +20,7 @@ export const userResolvers = {
   },
   Query: {
     Usuarios: async (parent, { filter }, context) => {
-      const filtrado = {};
+      let filtrado = {};
       if (filter) {
         filtrado = filter;
       }
@@ -37,7 +37,12 @@ export const userResolvers = {
   },
   Mutation: {
     crearUsuario: async (parent, args, context) => {
-      const user = await userModel.create({ ...args });
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(args.password, salt);
+      const user = await userModel.create({
+        ...args,
+        password: hashedPassword,
+      });
       return user;
     },
     eliminarUsuario: async (parent, args, context) => {
@@ -55,10 +60,18 @@ export const userResolvers = {
       return user;
     },
     editarUsuario: async (parent, { _id, body }, context) => {
-      const user = await userModel.findOneAndUpdate({ _id }, body, {
-        runValidators: true,
-        new: true,
-      });
+      if (body.password) {
+        const salt = await bcrypt.genSalt(10);
+        body = { ...body, password: await bcrypt.hash(body.password, salt) };
+      }
+      const user = await userModel.findOneAndUpdate(
+        { _id },
+        { ...body },
+        {
+          runValidators: true,
+          new: true,
+        }
+      );
       return user;
     },
   },

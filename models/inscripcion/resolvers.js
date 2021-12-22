@@ -5,7 +5,7 @@ import { inscriptionModel } from "./inscripcion.js";
 export const inscriptionResolver = {
   Inscripcion: {
     proyecto: async ({ proyecto }, args, context) => {
-      console.log(proyecto);
+      (proyecto);
       const project = await projectModel.findOne({ _id: proyecto });
       return project;
     },

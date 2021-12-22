@@ -39,7 +39,7 @@ export const advancementResolvers = {
           { fase: "DESARROLLO" },
           { runValidators: true, new: true }
         );
-        console.log("proy modificado", proyectoModificado);
+        ("proy modificado", proyectoModificado);
       }
       return avance;
     },

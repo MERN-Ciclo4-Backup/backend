@@ -45,15 +45,15 @@ const crearProyectoConObjetivos1 = async () => {
 const consultaProyectoConObjetivos1 = async () => {
   const proyecto = await projectModel.findOne({ _id: '618d52f71098bc9a121e95d5' });
 
-  console.log('el proyecto que encontré fue', proyecto);
+  ('el proyecto que encontré fue', proyecto);
 
   const objetivos = await objectiveModel.find({ project: '618d52f71098bc9a121e95d5' });
 
-  console.log('los objetivos del proyecto son: ', objetivos);
+  ('los objetivos del proyecto son: ', objetivos);
 
   const proyectoConObjetivos = { ...proyecto, objetivos };
 
-  console.log('el proyecto con objetivos es: ', proyectoConObjetivos);
+  ('el proyecto con objetivos es: ', proyectoConObjetivos);
 };
 
 // METODOLOGIA ONE TO MANY #2
@@ -124,16 +124,16 @@ const crearProyectoConObjetivos3 = async () => {
 };
 const consultaProyectoConObjetivos3 = async () => {
   const proyectoCreado = await projectModel.find({ id: '618d5b22e4e2a99bddab693e' });
-  console.log('proyecto', proyectoCreado);
+  ('proyecto', proyectoCreado);
 };
 
 const start = async () => {
   try {
     await connectDB(stringConn);
-    console.log("Connection with success");
+    ("Connection with success");
     
   } catch (err) {
-    console.log(err);
+    (err);
   }
 };
 // const project = await projectModel.create({
@@ -144,10 +144,10 @@ const start = async () => {
     //   lider: '61a36089195a35c0106d541f',
     // });
     // const project = await projectModel.find({ nombre: "Proyecto 1" });
-    // console.log(project);
+    // (project);
     // const proyecto = await userModel.find({ _id: project[0].lider });
     // const proyecto = await projectModel.find({nombre: "Proyecto 2"}).populate('lider');
-    // console.log(proyecto);
+    // (proyecto);
     // const user = await userModel.create({
     //     correo: 'juansebas930329@gmail.com',
     //     identificacion: '12345678',
@@ -155,7 +155,7 @@ const start = async () => {
     //     apellido: 'Camacho',
     //     rol: 'Lider',
     // });
-    // console.log(user);
+    // (user);
     // const user = await userModel.find({correo: 'juansebas930329@gmail.com'});
 
     //
@@ -179,5 +179,5 @@ const start = async () => {
     //   identificacion: "123451255",
     //   rol: Enum_Rol.Estudiante,
     // });
-    // console.log(user);
+    // (user);
 start();

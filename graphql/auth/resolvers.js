@@ -11,7 +11,7 @@ export const authResolvers = {
         ...args,
         password: hashedPassword,
       });
-      console.log("usuario creado: ", usuarioCreado);
+      ("usuario creado: ", usuarioCreado);
       return {
         token: generateToken({
           _id: usuarioCreado._id,
@@ -28,21 +28,24 @@ export const authResolvers = {
         correo: args.correo,
       });
       if (await bcrypt.compare(args.password, usuarioEncontrado.password)) {
+        const token = generateToken({
+          _id: usuarioEncontrado._id,
+          nombre: usuarioEncontrado.nombre,
+          apellido: usuarioEncontrado.apellido,
+          identificacion: usuarioEncontrado.identificacion,
+          correo: usuarioEncontrado.correo,
+          rol: usuarioEncontrado.rol,
+          foto: usuarioEncontrado.foto,
+        });
+        ("este es el token: ");
+        (token);
         return {
-          token: generateToken({
-            _id: usuarioEncontrado._id,
-            nombre: usuarioEncontrado.nombre,
-            apellido: usuarioEncontrado.apellido,
-            identificacion: usuarioEncontrado.identificacion,
-            correo: usuarioEncontrado.correo,
-            rol: usuarioEncontrado.rol,
-            foto: usuarioEncontrado.foto,
-          }),
+          token,
         };
       }
     },
     refreshToken: async (parent, args, context) => {
-      console.log("contexto: ", context);
+      ("contexto: ", context);
       if (!context.userData) {
         return {
           error: "token no valido",

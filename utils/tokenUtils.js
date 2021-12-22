@@ -8,7 +8,7 @@ export const validateToken = async (token) => {
     } catch (err) {
       verificacion = { error: err };
     }
-    console.log(verificacion, token);
+    (verificacion, token);
     return verificacion;
   }
 };

@@ -8,14 +8,14 @@ export const advancementResolvers = {
       const project = await projectModel.findOne({ _id: proyecto });
       return project;
     },
-    creadoPor: async ({creadoPor}, args) => {
+    creadoPor: async ({ creadoPor }, args) => {
       const user = await userModel.findOne({ _id: creadoPor });
       return user;
     },
   },
   Query: {
     Avances: async (parent, { filter }, context) => {
-      const filtrado = {};
+      let filtrado = {};
       if (filter) {
         filtrado = filter;
       }
@@ -24,13 +24,23 @@ export const advancementResolvers = {
     },
     Avance: async (parent, { _id }) => {
       const avances = await advancementModel.findOne({ _id });
-
       return avances;
     },
   },
   Mutation: {
     crearAvance: async (parent, args) => {
       const avance = await advancementModel.create({ ...args });
+      const avances = await advancementModel.find({
+        proyecto: avance.proyecto,
+      });
+      if (avances.length === 1) {
+        const proyectoModificado = await projectModel.findOneAndUpdate(
+          { _id: avance.proyecto },
+          { fase: "DESARROLLO" },
+          { runValidators: true, new: true }
+        );
+        ("proy modificado", proyectoModificado);
+      }
       return avance;
     },
     eliminarAvance: async (parent, { _id }) => {

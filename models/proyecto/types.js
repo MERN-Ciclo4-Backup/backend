@@ -7,6 +7,7 @@ export const projectTypes = gql`
     tipo: Enum_TipoObjetivo!
   }
   input ObjetivoInput {
+    _id: ID
     descripcion: String!
     tipo: Enum_TipoObjetivo!
   }
@@ -19,11 +20,12 @@ export const projectTypes = gql`
     estado: Enum_EstadoProyecto!
     fase: Enum_FaseProyecto!
     lider: Usuario!
-    objetivos: [Objetivo]
-    avances: [Avance]
-    inscripciones: [Inscripcion]
+    objetivos: [Objetivo!]!
+    avances: [Avance!]!
+    inscripciones: [Inscripcion!]!
   }
-  input ProyectoBody {
+  input ProyectoInput {
+    _id: ID
     nombre: String
     presupuesto: Float
     fechaInicio: Date
@@ -31,10 +33,12 @@ export const projectTypes = gql`
     estado: Enum_EstadoProyecto
     fase: Enum_FaseProyecto
     lider: String
+    avances: [String]
     objetivos: [String]
+    inscripciones: [String]
   }
   type Query {
-    Proyectos(filter: ProyectoBody): [Proyecto]
+    Proyectos(filter: ProyectoInput): [Proyecto]
 
     Proyecto(_id: ID!): Proyecto
   }
@@ -52,6 +56,12 @@ export const projectTypes = gql`
 
     eliminarProyecto(_id: String!): Proyecto
 
-    editarProyecto(_id: String!, body: ProyectoBody!): Proyecto
+    editarProyecto(_id: String!, body: ProyectoInput!): Proyecto
+
+    crearObjetivo(idProyecto: String!, body: ObjetivoInput!): Proyecto
+
+    editarObjetivo(idProyecto: String!, indexObjetivo: Int!, body: ObjetivoInput): Proyecto
+
+    eliminarObjetivo(idProyecto: String!, idObjetivo: String!): Proyecto
   }
 `;

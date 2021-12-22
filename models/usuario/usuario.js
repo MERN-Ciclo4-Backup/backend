@@ -13,6 +13,10 @@ const userSchema = new Schema(
         message: "el formato del email no es válido",
       },
     },
+    password: {
+      type: String,
+      required: [true, "debe proporcionar la contraseña"],
+    },
     identificacion: {
       type: String,
       required: [true, "debe proporcionar la identificacón del usuario"],
@@ -26,9 +30,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, "debe proporcionar el apellido del usuario"],
     },
+    foto: {
+      type: String,
+    },
     rol: {
       type: String,
-      required: [true, "debe proporcionar un rol del usuari"],
+      required: [true, "debe proporcionar un rol del usuario"],
       enum: ["ESTUDIANTE", "LIDER", "ADMINISTRADOR"],
     },
     estado: {
@@ -36,10 +43,10 @@ const userSchema = new Schema(
       default: "PENDIENTE",
       enum: ["PENDIENTE", "AUTORIZADO", "NO_AUTORIZADO"],
     },
-  },
+  }
   // {
   //   toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
-  //   toObject: { virtuals: true }, // So `console.log()` and other functions that use `toObject()` include virtuals
+  //   toObject: { virtuals: true }, // So `()` and other functions that use `toObject()` include virtuals
   // }
 );
 // userSchema.virtual("inscripciones", {

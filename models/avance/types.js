@@ -9,15 +9,16 @@ export const advancementTypes = gql`
     proyecto: Proyecto!
     creadoPor: Usuario!
   }
-  input AvanceBody {
+  input AvanceInput{
+    _id: ID
+    fecha: Date
     descripcion: String
     observaciones: [String]
-    fecha: Date
     proyecto: String
     creadoPor: String
   }
   type Query {
-    Avances(filter: AvanceBody): [Avance]
+    Avances(filter: AvanceInput): [Avance]
 
     Avance(_id: ID!): Avance
   }
@@ -32,6 +33,6 @@ export const advancementTypes = gql`
 
     eliminarAvance(_id: String!): Avance
 
-    editarAvance(_id: String!, body: AvanceBody!): Avance
+    editarAvance(_id: String!, body: AvanceInput!): Avance
   }
 `;

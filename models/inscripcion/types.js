@@ -10,7 +10,8 @@ export const inscriptionTypes = gql`
     proyecto: Proyecto!
     estudiante: Usuario!
   }
-  input InscripcionBody {
+  input InscripcionInput {
+    _id: ID
     estado: Enum_EstadoInscripcion
     fechaIngreso: Date
     fechaEgreso: Date
@@ -18,7 +19,7 @@ export const inscriptionTypes = gql`
     estudiante: String
   }
   type Query {
-    Inscripciones(filter: InscripcionBody): [Inscripcion]
+    Inscripciones(filter: InscripcionInput): [Inscripcion]
 
     Inscripcion(_id: ID!): Inscripcion
   }
@@ -35,7 +36,7 @@ export const inscriptionTypes = gql`
 
     editarInscripcion(
       _id: String!
-      body: InscripcionBody!
+      body: InscripcionInput!
     ): Inscripcion
   }
 `;

@@ -8,7 +8,7 @@ export const enumTypes = gql`
   }
   enum Enum_FaseProyecto {
     INICIADO
-    EN_DESARROLLO
+    DESARROLLO
     TERMINADO
     NULO
   }

@@ -11,7 +11,6 @@ export const authResolvers = {
         ...args,
         password: hashedPassword,
       });
-      ("usuario creado: ", usuarioCreado);
       return {
         token: generateToken({
           _id: usuarioCreado._id,
@@ -45,7 +44,6 @@ export const authResolvers = {
       }
     },
     refreshToken: async (parent, args, context) => {
-      ("contexto: ", context);
       if (!context.userData) {
         return {
           error: "token no valido",

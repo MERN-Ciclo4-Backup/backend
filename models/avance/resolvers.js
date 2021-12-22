@@ -39,7 +39,6 @@ export const advancementResolvers = {
           { fase: "DESARROLLO" },
           { runValidators: true, new: true }
         );
-        ("proy modificado", proyectoModificado);
       }
       return avance;
     },

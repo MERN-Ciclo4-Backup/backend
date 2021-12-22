@@ -47,16 +47,13 @@ export const projectResolvers = {
       return proyecto;
     },
     eliminarProyecto: async (parent, { _id }) => {
-      ("ENTRE A ELIMINAR PROYECTO");
       const proyecto = await projectModel.findOneAndDelete({ _id });
       const inscripciones = await inscriptionModel.deleteMany({
         proyecto: proyecto._id,
       });
-      (inscripciones);
       const avances = await advancementModel.deleteMany({
         proyecto: proyecto._id,
       });
-      (avances);
       return proyecto;
     },
     editarProyecto: async (parent, { _id, body }) => {

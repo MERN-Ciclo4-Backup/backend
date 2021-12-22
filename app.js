@@ -23,7 +23,6 @@ const server = new ApolloServer({
     const token = req.headers?.authorization ?? null;
     if (token) {
       const userData = getUserData(token);
-      //("user data: ", userData);
       if (userData) {
         return { userData };
       }
@@ -40,7 +39,7 @@ app.use(cors());
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    await app.listen(process.env.PORT || 5000, async () => {
+    app.listen(process.env.PORT || 5000, async () => {
       await server.start();
       server.applyMiddleware({ app });
     });

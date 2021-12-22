@@ -36,8 +36,8 @@ export const authResolvers = {
           rol: usuarioEncontrado.rol,
           foto: usuarioEncontrado.foto,
         });
-        ("este es el token: ");
-        (token);
+        console.log("este es el token: ");
+        console.log(token);
         return {
           token,
         };
